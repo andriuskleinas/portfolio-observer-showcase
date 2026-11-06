@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import type { Meta, Num } from "../api";
-import { arrow, money, pct, tone } from "../format";
+import { money, pct, tone } from "../format";
+import { IconArrowDown, IconArrowUp } from "./Icons";
 
 // --- data loading ----------------------------------------------------------------
 
@@ -47,12 +48,29 @@ export function Money({ v, ccy, compact, signed, decimals, className = "" }: {
 }
 
 /** Signed change with arrow + color; the arrow keeps direction readable without color. */
-export function Delta({ v, ccy, percent }: { v: Num | undefined; ccy?: string; percent?: boolean }) {
+export function Delta({ v, ccy, percent, pill }: { v: Num | undefined; ccy?: string; percent?: boolean; pill?: boolean }) {
   const text = percent ? pct(v, { signed: true }) : money(v, ccy ?? "USD", { signed: true });
+  const t = tone(v);
   return (
-    <span className={`${tone(v)} ${percent ? "" : "money"}`}>
-      {arrow(v)}
+    <span className={`delta ${t} ${pill ? "pill" : ""} ${percent ? "" : "money"}`}>
+      {t === "up" && <IconArrowUp size={pill ? 13 : 12} className="delta-icon" />}
+      {t === "down" && <IconArrowDown size={pill ? 13 : 12} className="delta-icon" />}
       {text}
+    </span>
+  );
+}
+
+/** Stable color per asset class, shared by allocation bars and holding avatars. */
+export function classColor(key: string) {
+  return `var(--c-${key.replace(/_/g, "-")}, var(--c-other))`;
+}
+
+export function AssetAvatar({ name, symbol, assetClass }: { name: string; symbol?: string | null; assetClass: string }) {
+  const src = (symbol && symbol.length <= 5 ? symbol : name).replace(/[^A-Za-z0-9]/g, "");
+  const initials = src.slice(0, symbol && symbol.length <= 5 ? 3 : 2).toUpperCase() || "•";
+  return (
+    <span className="avatar" style={{ ["--av" as string]: classColor(assetClass) }} aria-hidden="true">
+      {initials}
     </span>
   );
 }

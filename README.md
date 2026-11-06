@@ -9,6 +9,22 @@ It runs on your own computer, and your data stays there.
 
 The full plan (dashboard, thesis workspace, AI news feed) is in [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md).
 
+![Portfolio Observer dashboard: total value, returns, value over time, allocation by asset class and holdings](docs/screenshots/dashboard-light.png)
+
+## Screenshots
+
+All screenshots use the built-in demo portfolio (made-up data, `make demo`).
+
+| Dark mode | Phone |
+|---|---|
+| ![Dashboard in dark mode](docs/screenshots/dashboard-dark.png) | <img src="docs/screenshots/mobile-dark.png" alt="Dashboard on a phone" width="260"> |
+
+| Listed ETF: price history, buys, FIFO lots | Startup: manual valuations and write-downs |
+|---|---|
+| ![ETF holding page](docs/screenshots/holding-etf.png) | ![Startup holding page](docs/screenshots/holding-startup.png) |
+
+To regenerate them after UI changes, start the demo and run `node scripts/screenshots.mjs` (needs Google Chrome).
+
 ## What works today
 
 **Foundation and dashboard (first MVP slice):**

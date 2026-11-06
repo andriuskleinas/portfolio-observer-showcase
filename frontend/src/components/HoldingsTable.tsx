@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { HoldingRow } from "../api";
 import { fmtDate, pct, qty } from "../format";
-import { Delta, Money, SortHeader, useClassLabel } from "./ui";
+import { AssetAvatar, Delta, Money, SortHeader, useClassLabel } from "./ui";
 
 type Key = "name" | "asset_class" | "value" | "weight" | "unrealized" | "unrealized_pct" | "period_return" | "period_gain";
 
@@ -42,18 +42,22 @@ export function HoldingsTable({ rows, ccy, showAccount = true }: { rows: Holding
               onClick={() => r.asset_id && nav(`/assets/${r.asset_id}`)}
             >
               <td>
-                {r.asset_id ? <a href={`/assets/${r.asset_id}`} onClick={(e) => e.preventDefault()}>{r.name}</a> : r.name}
-                {r.stale && (
-                  <>
-                    {" "}
-                    <span className="chip warn" title={`Last price or valuation ${fmtDate(r.price_date)}`}>stale</span>
-                  </>
-                )}
-                <span className="sub">
-                  {[r.symbol && r.symbol !== r.name ? r.symbol : null, showAccount ? r.account : null].filter(Boolean).join(" · ")}
-                </span>
+                <div className="holding-cell">
+                  <AssetAvatar name={r.name} symbol={r.symbol} assetClass={r.asset_class} />
+                  <div className="holding-text">
+                    <span className="holding-name">
+                      {r.asset_id ? <a href={`/assets/${r.asset_id}`} onClick={(e) => e.preventDefault()}>{r.name}</a> : r.name}
+                      {r.stale && (
+                        <span className="chip warn" title={`Last price or valuation ${fmtDate(r.price_date)}`}>Stale</span>
+                      )}
+                    </span>
+                    <span className="sub">
+                      {[r.symbol && r.symbol !== r.name ? r.symbol : null, showAccount ? r.account : null].filter(Boolean).join(" · ")}
+                    </span>
+                  </div>
+                </div>
               </td>
-              <td className="hide-sm secondary">{classLabel(r.asset_class)}</td>
+              <td className="hide-sm secondary nowrap">{classLabel(r.asset_class)}</td>
               <td className="num hide-sm">{qty(r.quantity)}</td>
               <td className="num hide-sm">
                 {r.price !== null ? <Money v={r.price} ccy={r.currency} /> : "—"}

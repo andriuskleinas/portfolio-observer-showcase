@@ -77,12 +77,12 @@ export function Transactions() {
                 <tbody>
                   {shown.map((t) => (
                     <tr key={t.id}>
-                      <td>{fmtDate(t.trade_date)}</td>
+                      <td className="nowrap">{fmtDate(t.trade_date)}</td>
                       <td>{TX_LABELS[t.type] ?? t.type}{t.source === "import" && <span className="sub">imported</span>}</td>
                       <td>
                         {t.asset_id ? <Link to={`/assets/${t.asset_id}`}>{t.asset_symbol || t.asset_name}</Link> : <span className="muted">{t.type === "fx" ? `${t.currency} → ${t.counter_currency}` : "—"}</span>}
                       </td>
-                      <td className="hide-sm secondary">{t.account_name}</td>
+                      <td className="hide-sm secondary nowrap">{t.account_name}</td>
                       <td className="num">{qty(t.quantity)}</td>
                       <td className="num">{t.price ? <Money v={Number(t.price)} ccy={t.currency} /> : "—"}</td>
                       <td className="num">{t.amount ? <Money v={Number(t.amount)} ccy={t.currency} /> : "—"}</td>
@@ -226,7 +226,7 @@ export function Assets() {
                       <Link to={`/assets/${a.id}`}>{a.name}</Link>
                       <span className="sub">{[a.symbol, a.isin, ...a.tags].filter(Boolean).join(" · ")}</span>
                     </td>
-                    <td className="secondary">{classLabel(a.asset_class)}</td>
+                    <td className="secondary nowrap">{classLabel(a.asset_class)}</td>
                     <td className="hide-sm">{a.currency}</td>
                     <td className="hide-sm secondary">{a.valuation_method === "manual" ? "Valuations" : "Market price"}</td>
                     <td className="num">

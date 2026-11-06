@@ -55,14 +55,21 @@ export function Dashboard() {
         accounts={data.filter_options.accounts}
       />
 
-      <section className="hero" aria-label="Total value">
-        <div>
-          <div className="hero-label">Total value · {fmtDate(data.as_of)}</div>
+      <section className="hero card" aria-label="Total value">
+        <div className="hero-main">
+          <div className="eyebrow">Total portfolio value</div>
           <div className="hero-value money">{money(s.end_value, ccy)}</div>
+          <div className="hero-delta">
+            <Delta v={s.gain} ccy={ccy} pill />
+            <span className="delta-pct"><Delta v={s.twr} percent /></span>
+            <span className="secondary">{periodName}</span>
+          </div>
         </div>
-        <div className="hero-delta">
-          <Delta v={s.gain} ccy={ccy} /> <span className="secondary">({pct(s.twr, { signed: true })}) {periodName}</span>
-        </div>
+        <dl className="hero-meta">
+          <div><dt>As of</dt><dd>{fmtDate(data.as_of)}</dd></div>
+          <div><dt>Positions</dt><dd>{data.holdings.length}</dd></div>
+          <div><dt>Base currency</dt><dd>{ccy}</dd></div>
+        </dl>
       </section>
 
       <section className="tiles" aria-label="Key figures">
@@ -89,7 +96,7 @@ export function Dashboard() {
           <div className="card-head">
             <div>
               <h2>Allocation</h2>
-              <p>By asset class — select a bar to filter</p>
+              <p>By asset class · select one to filter</p>
             </div>
           </div>
           <AllocationBars rows={data.allocation} ccy={ccy} onSelect={(k) => update({ assetClass: k })} />
@@ -105,7 +112,7 @@ export function Dashboard() {
             {data.stale.map((r) => (
               <li key={r.key}>
                 <span>
-                  <span className="chip warn">stale</span> <Link to={`/assets/${r.asset_id}`}>{r.name}</Link>
+                  <span className="chip warn">Stale</span> <Link to={`/assets/${r.asset_id}`}>{r.name}</Link>
                   <span className="muted"> — last {r.price_source === "mark" ? "valuation" : "price"} {fmtDate(r.price_date)}</span>
                 </span>
                 <Link to={`/assets/${r.asset_id}`} className="btn small">Update value</Link>
@@ -113,7 +120,7 @@ export function Dashboard() {
             ))}
             {data.warnings.map((w) => (
               <li key={w}>
-                <span><span className="chip warn">check</span> {w}</span>
+                <span><span className="chip warn">Check</span> {w}</span>
               </li>
             ))}
           </ul>
@@ -171,7 +178,7 @@ function ValueCard({ data }: { data: DashboardData }) {
           zeroBaseline
           series={[
             { name: "Value", color: "var(--series-1)", area: true, points: data.series.map((p) => ({ date: p.date, y: p.value })) },
-            { name: "Net invested", color: "var(--series-2)", points: data.series.map((p) => ({ date: p.date, y: p.invested })) },
+            { name: "Net invested", color: "var(--series-2)", dashed: true, points: data.series.map((p) => ({ date: p.date, y: p.invested })) },
           ]}
           formatY={(v) => money(v, ccy, { compact: true })}
           formatValue={(v) => money(v, ccy)}

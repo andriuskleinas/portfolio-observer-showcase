@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 
 export interface LineSeries {
   name: string;
@@ -6,6 +6,7 @@ export interface LineSeries {
   points: { date: string; y: number }[];
   area?: boolean;
   step?: boolean; // hold each value until the next point (manual valuations)
+  dashed?: boolean; // reference lines such as net invested
 }
 
 export interface Marker {
@@ -41,6 +42,7 @@ const toTime = (d: string) => new Date(`${d}T00:00:00`).getTime();
  *  that lists every series at the hovered date. Keyboard: focus, then ← →. */
 export function LineChart({ series, markers = [], markerLegend = [], height = 260, zeroBaseline, formatY, formatValue, ariaLabel }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
+  const gid = useId().replace(/:/g, "");
   const [width, setWidth] = useState(600);
   const [hover, setHover] = useState<number | null>(null);
 
@@ -144,7 +146,7 @@ export function LineChart({ series, markers = [], markerLegend = [], height = 26
         <div className="legend" aria-hidden="true">
           {series.map((s) => (
             <span key={s.name}>
-              <i className="key-line" style={{ background: s.color }} />
+              <i className={`key-line ${s.dashed ? "dashed" : ""}`} style={{ color: s.color }} />
               {s.name}
             </span>
           ))}
@@ -157,6 +159,16 @@ export function LineChart({ series, markers = [], markerLegend = [], height = 26
         </div>
       )}
       <svg width={width} height={height} role="img" aria-label={ariaLabel}>
+        <defs>
+          {series.map((s, i) =>
+            s.area ? (
+              <linearGradient key={s.name} id={`${gid}-${i}`} x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor={s.color} stopOpacity={0.22} />
+                <stop offset="100%" stopColor={s.color} stopOpacity={0.02} />
+              </linearGradient>
+            ) : null,
+          )}
+        </defs>
         {geo.ticks.map((v) => (
           <g key={v}>
             <line x1={M.left} x2={width - M.right} y1={geo.y(v)} y2={geo.y(v)} stroke="var(--grid)" strokeWidth={1} />
@@ -171,18 +183,17 @@ export function LineChart({ series, markers = [], markerLegend = [], height = 26
           </text>
         ))}
         <line x1={M.left} x2={width - M.right} y1={baselineY} y2={baselineY} stroke="var(--axis)" strokeWidth={1} />
-        {series.map((s) =>
+        {series.map((s, i) =>
           s.area ? (
             <path
               key={`a-${s.name}`}
               d={`${path(s.points, s.step)}L${geo.x(toTime(s.points[s.points.length - 1].date))},${baselineY}L${geo.x(toTime(s.points[0].date))},${baselineY}Z`}
-              fill={s.color}
-              opacity={0.1}
+              fill={`url(#${gid}-${i})`}
             />
           ) : null,
         )}
         {series.map((s) => (
-          <path key={s.name} d={path(s.points, s.step)} fill="none" stroke={s.color} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+          <path key={s.name} d={path(s.points, s.step)} fill="none" stroke={s.color} strokeWidth={s.dashed ? 1.5 : 2} strokeDasharray={s.dashed ? "5 4" : undefined} strokeLinejoin="round" strokeLinecap="round" />
         ))}
         {markers.map((m, i) => (
           <circle key={i} cx={geo.x(toTime(m.date))} cy={geo.y(m.y)} r={4.5} fill={m.color} stroke="var(--surface)" strokeWidth={2} />
@@ -221,7 +232,7 @@ export function LineChart({ series, markers = [], markerLegend = [], height = 26
           {series.map((s) =>
             s.points[hover] ? (
               <div className="tt-row" key={s.name}>
-                <i className="key-line" style={{ background: s.color }} />
+                <i className={`key-line ${s.dashed ? "dashed" : ""}`} style={{ color: s.color }} />
                 <strong className="money">{formatValue(s.points[hover].y)}</strong>
                 <span className="name">{s.name}</span>
               </div>
