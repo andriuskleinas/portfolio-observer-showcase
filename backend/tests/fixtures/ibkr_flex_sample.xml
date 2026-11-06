@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic Flex Query report for tests. Not real account data. -->
+<FlexQueryResponse queryName="Portfolio Observer" type="AF">
+  <FlexStatements count="1">
+    <FlexStatement accountId="U0000001" fromDate="20240101" toDate="20240630" period="Custom" whenGenerated="20240701;083000">
+      <AccountInformation accountId="U0000001" currency="USD" name="Test Owner" />
+      <Trades>
+        <Trade accountId="U0000001" currency="USD" fxRateToBase="1" assetCategory="STK" symbol="AAPL" description="APPLE INC" conid="265598" isin="US0378331005" tradeID="1001" transactionID="5001" tradeDate="20240103" dateTime="20240103;101500" quantity="10" tradePrice="150" ibCommission="-1" ibCommissionCurrency="USD" buySell="BUY" levelOfDetail="EXECUTION" />
+        <Trade accountId="U0000001" currency="USD" fxRateToBase="1" assetCategory="STK" symbol="AAPL" description="APPLE INC" conid="265598" isin="US0378331005" tradeID="1001" tradeDate="20240103" quantity="10" tradePrice="150" ibCommission="-1" ibCommissionCurrency="USD" buySell="BUY" levelOfDetail="ORDER" />
+        <Trade accountId="U0000001" currency="USD" fxRateToBase="1" assetCategory="STK" symbol="AAPL" description="APPLE INC" conid="265598" tradeDate="20240103" quantity="10" tradePrice="150" levelOfDetail="CLOSED_LOT" />
+        <Trade accountId="U0000001" currency="USD" fxRateToBase="1" assetCategory="CASH" symbol="EUR.USD" description="EUR.USD" tradeID="1002" transactionID="5002" tradeDate="20240104" quantity="1000" tradePrice="1.09" ibCommission="-2" ibCommissionCurrency="USD" buySell="BUY" levelOfDetail="EXECUTION" />
+        <Trade accountId="U0000001" currency="EUR" fxRateToBase="1.0912" assetCategory="STK" symbol="ASML" description="ASML HOLDING NV" conid="117902840" isin="NL0010273215" tradeID="1003" transactionID="5003" tradeDate="20240105" quantity="1" tradePrice="600" ibCommission="-1.5" ibCommissionCurrency="EUR" buySell="BUY" levelOfDetail="EXECUTION" />
+        <Trade accountId="U0000001" currency="USD" fxRateToBase="1" assetCategory="STK" symbol="AAPL" description="APPLE INC" conid="265598" isin="US0378331005" tradeID="1004" transactionID="5004" tradeDate="20240301" quantity="-5" tradePrice="180" ibCommission="-1" ibCommissionCurrency="USD" buySell="SELL" levelOfDetail="EXECUTION" />
+      </Trades>
+      <CashTransactions>
+        <CashTransaction accountId="U0000001" currency="USD" fxRateToBase="1" type="Deposits/Withdrawals" amount="20000" dateTime="20240102" description="CASH RECEIPTS / ELECTRONIC FUND TRANSFERS" transactionID="6001" levelOfDetail="DETAIL" />
+        <CashTransaction accountId="U0000001" currency="USD" fxRateToBase="1" type="Dividends" amount="2.4" symbol="AAPL" conid="265598" isin="US0378331005" dateTime="20240215" description="AAPL CASH DIVIDEND USD 0.24 PER SHARE" transactionID="6002" levelOfDetail="DETAIL" />
+        <CashTransaction accountId="U0000001" currency="USD" fxRateToBase="1" type="Withholding Tax" amount="-0.36" symbol="AAPL" conid="265598" dateTime="20240215" description="AAPL US TAX" transactionID="6003" levelOfDetail="DETAIL" />
+        <CashTransaction accountId="U0000001" currency="USD" fxRateToBase="1" type="Broker Interest Received" amount="5.2" dateTime="20240305" description="USD CREDIT INT FOR FEB-2024" transactionID="6004" levelOfDetail="DETAIL" />
+        <CashTransaction accountId="U0000001" currency="USD" fxRateToBase="1" type="Other Fees" amount="-10" dateTime="20240305" description="MARKET DATA FEE" transactionID="6005" levelOfDetail="DETAIL" />
+        <CashTransaction accountId="U0000001" currency="USD" fxRateToBase="1" type="Some New Type" amount="1" dateTime="20240306" transactionID="6006" levelOfDetail="DETAIL" />
+      </CashTransactions>
+      <CorporateActions>
+        <CorporateAction accountId="U0000001" currency="USD" assetCategory="STK" symbol="AAPL" conid="265598" isin="US0378331005" description="AAPL(US0378331005) SPLIT 2 FOR 1 (AAPL, APPLE INC, US0378331005)" reportDate="20240610" type="FS" quantity="5" actionID="7001" levelOfDetail="DETAIL" />
+        <CorporateAction accountId="U0000001" currency="USD" assetCategory="STK" symbol="AAPL" conid="265598" isin="US0378331005" description="AAPL(US0378331005) SPLIT 2 FOR 1 (AAPL, APPLE INC, US0378331005)" reportDate="20240610" type="FS" quantity="0" actionID="7002" levelOfDetail="DETAIL" />
+        <CorporateAction accountId="U0000001" currency="USD" assetCategory="STK" symbol="XYZ" conid="999" description="XYZ SPINOFF 1 FOR 10 (NEWCO)" reportDate="20240611" type="SO" actionID="7003" levelOfDetail="DETAIL" />
+      </CorporateActions>
+      <OpenPositions>
+        <OpenPosition accountId="U0000001" currency="USD" assetCategory="STK" symbol="AAPL" description="APPLE INC" conid="265598" isin="US0378331005" position="10" markPrice="95" reportDate="20240628" levelOfDetail="SUMMARY" />
+        <OpenPosition accountId="U0000001" currency="EUR" assetCategory="STK" symbol="ASML" description="ASML HOLDING NV" conid="117902840" isin="NL0010273215" position="2" markPrice="650" reportDate="20240628" levelOfDetail="SUMMARY" />
+      </OpenPositions>
+      <PriorPeriodPositions>
+        <PriorPeriodPosition accountId="U0000001" currency="USD" assetCategory="STK" symbol="AAPL" conid="265598" date="20240627" price="94.5" />
+      </PriorPeriodPositions>
+      <ConversionRates>
+        <ConversionRate reportDate="20240104" fromCurrency="EUR" toCurrency="USD" rate="1.0945" />
+        <ConversionRate reportDate="20240628" fromCurrency="EUR" toCurrency="USD" rate="1.0713" />
+      </ConversionRates>
+    </FlexStatement>
+  </FlexStatements>
+</FlexQueryResponse>
